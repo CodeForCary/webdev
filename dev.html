@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Development in Cary, NC</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.css" />
+
+	<script src="http://leafletjs.com/dist/leaflet.js"></script>
+
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		html, body, #map {
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+
+	<script>
+		var map = L.map('map');
+		var southwestCoord = L.latLng(35.639,-78.968);
+		var northeastCoord = L.latLng(35.919,-78.698);
+		var bounds = L.latLngBounds(southwestCoord, northeastCoord);
+		
+		L.tileLayer('http://{s}.tile.cloudmade.com/f384e4d989e547aeae6e0ce04a9aa2e0/997/256/{z}/{x}/{y}.png', {
+			minZoom: 12,
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+		}).addTo(map);
+
+		map.setMaxBounds(bounds);
+
+		var legend = L.control({position: 'bottomright'});
+		
+		legend.onAdd = function (map) {
+			var div = L.DomUtil.create('div', 'info legend');
+			div.innterHTML = '<h1>February 2014<h1>';
+			return div;
+		};
+
+		legend.addTo(map);
+
+		function onLocationFound(e) {
+			var radius = e.accuracy / 2;
+			var currSpd = e.speed;
+
+			L.marker(e.latlng).addTo(map)
+				.bindPopup("Current Location (within " + radius + " meters from this point) at " + currSpd + ".").openPopup();
+
+			L.circle(e.latlng, radius).addTo(map);
+		}
+
+		function onLocationError(e) {
+			alert(e.message);
+		}
+
+		map.on('locationfound', onLocationFound);
+		map.on('locationerror', onLocationError);
+
+		map.locate({setView: true, maxZoom: 16});
+	
+	</script>
+	<!-- Sourcing the polygons and putting them on the map -->
+	<script src="js/polyCoords.js"></script>
+
+</body>
+</html>
+
