@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=7; IE=EmulateIE9; IE=10" />
+    <base href="http://developer.here.com/apiexplorer/examples/api-for-js/map/zooming-the-map.html" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <title>Nokia Maps API for JavaScript Example: Zooming the map in & out</title>
+    <meta name="description" content="Changing the zoomlevel of the map view i.e. to city or street"/>
+    <meta name="keywords" content="zooming, map essentials, zoom"/>
+    <!-- For scaling content for mobile devices, setting the viewport to the width of the device-->
+    <meta name=viewport content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+    <!-- Styling for example container (NoteContainer & Logger)  -->
+    <link rel="stylesheet" type="text/css" href="http://developer.here.com/apiexplorer/examples/templates/js/exampleHelpers.css"/>
+    <!-- By default we add ?with=all to load every package available, it's better to change this parameter to your use case. Options ?with=maps|positioning|places|placesdata|directions|datarendering|all -->
+    <script type="text/javascript" charset="UTF-8" src="http://js.cit.api.here.com/se/2.5.3/jsl.js?with=all"></script>
+    <!-- JavaScript for example container (NoteContainer & Logger)  -->
+    <script type="text/javascript" charset="UTF-8" src="http://developer.here.com/apiexplorer/examples/templates/js/exampleHelpers.js"></script>
+    <style type="text/css">
+        html {
+            overflow:hidden;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+        }
+
+        #mapContainer {
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+<div id="mapContainer"></div>
+<div id="uiContainer"></div>
+<script type="text/javascript">
+    /*	Setup authentication app_id and app_code
+     *	WARNING: this is a demo-only key
+     *	please register for an Evaluation, Base or Commercial key for use in your app.
+     *	Just visit http://developer.here.com/get-started for more details. Thank you!
+     */
+    nokia.Settings.set("app_id", "DemoAppId01082013GAL");
+    nokia.Settings.set("app_code", "AJKnXv84fjrb0KIHawS0Tg");
+    // Use staging environment (remove the line for production environment)
+    nokia.Settings.set("serviceMode", "cit");
+
+    // Get the DOM node to which we will append the map
+    var mapContainer = document.getElementById("mapContainer");
+    // Create a map inside the map container DOM node
+    var map = new nokia.maps.map.Display(mapContainer, {
+        // Initial center and zoom level of the map
+        center: [35.7621664, -78.8176472],
+        zoomLevel: 12,
+        components: [
+            // ZoomBar provides a UI to zoom the map in & out
+            new nokia.maps.map.component.Behavior()
+        ]
+    });
+
+    if (nokia.maps.positioning.Manager) {
+        var positioning = new nokia.maps.positioning.Manager();
+        // Trigger the load of data, after the map emmits the "displayready" event
+        map.addListener("displayready", function () {
+            // Gets the current position, if available the first given callback function is executed else the second
+            positioning.getCurrentPosition(
+                    // If a position is provided by W3C geolocation API of the browser
+                    function (position) {
+                        var coords = position.coords, // we retrieve the longitude/latitude from position
+                                marker = new nokia.maps.map.StandardMarker(coords), // creates a marker
+                        /* Create a circle map object  on the  geographical coordinates of
+                         * provided position with a radius in meters of the accuracy of the position
+                         */
+                        accuracyCircle = new nokia.maps.map.Circle(coords, coords.accuracy);
+
+                        // Add the circle and marker to the map's object collection so they will be rendered onto the map.
+                        map.objects.addAll([accuracyCircle, marker]);
+                        /* This method zooms the map to ensure that the bounding box calculated from the size of the circle
+                         * shape is visible in its entirety in map's viewport.
+                         */
+
+                        //map.zoomTo(accuracyCircle.getBoundingBox(), false, "default");
+                    },
+                    // Something went wrong we wee unable to retrieve the GPS location
+                    function (error) {
+                        var errorMsg = "Location could not be determined: ";
+
+                        // We determine what caused the error and generate error message
+                        if (error.code == 1) errorMsg += "PERMISSION_DENIED";
+                        else if (error.code == 2) errorMsg += "POSITION_UNAVAILABLE";
+                        else if (error.code == 3) errorMsg += "TIMEOUT";
+                        else errorMsg += "UNKNOWN_ERROR";
+
+                        // Throw an alert with error message
+                        alert(errorMsg);
+                    }
+            );
+        });
+    }
+
+    // translates from leaflet objects to nokia.map.polygons
+    var L = {};
+    ;!(function(l, map) {
+        l.polygon = function(coords, args) {
+
+            var Polygon = function(coords, args) {
+                this.coords = coords;
+                this.args = args;
+                this.link = "";
+            };
+
+            var Obj = function(p) {
+                this.polygon = p;
+            };
+
+            Obj.prototype.bindPopup = function(link) {
+                this.polygon.link = link;
+
+                var dimensions = this.polygon.coords.map(function(c){
+                    return new nokia.maps.geo.Coordinate(c[0], c[1])
+                });
+
+                map.objects.add(new nokia.maps.map.Polygon(dimensions,
+                        {
+                            pen: { strokeColor: this.polygon.args.color, lineWidth: 1 },
+                            brush: { color: '#f03a', opacity: this.polygon.args.fillColor }
+                        }));
+            };
+
+            Polygon.prototype.addTo = function() {
+                return new Obj(this);
+            };
+
+            return new Polygon(coords, args);
+        }
+    })(L, map);
+
+</script>
+<script type="text/javascript" charset="UTF-8" src="http://met.citrinecourt.com/js/polyCoords.js"></script>
+</body>
+</html>
