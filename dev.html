@@ -1,74 +1,101 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Development in Cary, NC</title>
+  <head>
+    <title>Geolocation</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      #map-canvas {
+        height: 80%;
+        margin: 0px;
+	pading: 0px;
+      }
+    </style>
+    <!--
+    Include the maps javascript with sensor=true because this code is using a
+    sensor (a GPS locator) to determine the user's location.
+    See: https://developers.google.com/maps/documentation/javascript/tutorial#Loading_the_Maps_API
+    -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjF4Rue-wRz5uvVM8bG1NPTwqt3kVw9R0&sensor=TRUE">
+    </script>
+   
+    <script>
+// Note: This example requires that you consent to location sharing when
+// prompted by your browser. If you see a blank space instead of the map, this
+// is probably because you have denied permission for location sharing.
 
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+var map;
 
-	<link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.css" />
+function initialize() {
+  var mapOptions = {
+    zoom: 12
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+  var southwestCoord = new google.maps.LatLng(35.639,-78.968);
+  var northeastCoord = new google.maps.LatLng(35.919,-78.698);
+  var bounds = new google.maps.LatLngBounds(southwestCoord,northeastCoord);
+  
+  var devLayer = new google.maps.KmlLayer({
+  	url: 'http://codeforcary.org/res/sitesubplans-20140515.kml'
+  });
+  devLayer.setMap(map);
+  var rezLayer = new google.maps.KmlLayer({
+	url: 'http://codeforcary.org/res/rezoning-20140515.kml'
+  });
+  rezLayer.setMap(map);
 
-	<script src="http://leafletjs.com/dist/leaflet.js"></script>
+  // Try HTML5 geolocation
+  if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var pos = new google.maps.LatLng(position.coords.latitude,
+                                       position.coords.longitude);
 
-	<style>
-		body {
-			padding: 0;
-			margin: 0;
-		}
-		html, body, #map {
-			height: 100%;
-		}
-	</style>
-</head>
-<body>
-	<div id="map"></div>
+      var myLocation = new google.maps.Marker({
+		position: pos,
+		map: map,
+		title: 'Current Location'
+      });
 
-	<script>
-		var map = L.map('map');
-		var southwestCoord = L.latLng(35.639,-78.968);
-		var northeastCoord = L.latLng(35.919,-78.698);
-		var bounds = L.latLngBounds(southwestCoord, northeastCoord);
-		
-		L.tileLayer('http://{s}.tile.cloudmade.com/f384e4d989e547aeae6e0ce04a9aa2e0/997/256/{z}/{x}/{y}.png', {
-			minZoom: 12,
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-		}).addTo(map);
+      map.setCenter(pos);
+    }, function() {
+      handleNoGeolocation(true);
+    });
+  } else {
+    // Browser doesn't support Geolocation
+    handleNoGeolocation(false);
+  }
+  
+}
 
-		map.setMaxBounds(bounds);
+function handleNoGeolocation(errorFlag) {
+  if (errorFlag) {
+    var content = 'Error: The Geolocation service failed.';
+  } else {
+    var content = 'Error: Your browser doesn\'t support geolocation.';
+  }
 
-		var legend = L.control({position: 'bottomright'});
-		
-		legend.onAdd = function (map) {
-			var div = L.DomUtil.create('div', 'info legend');
-			div.innterHTML = '<h1>February 2014<h1>';
-			return div;
-		};
+  var options = {
+    map: map,
+    position: new google.maps.LatLng(60, 105),
+    content: content
+  };
 
-		legend.addTo(map);
+  var infowindow = new google.maps.InfoWindow(options);
+  map.setCenter(options.position);
+}
 
-		function onLocationFound(e) {
-			var radius = e.accuracy / 2;
-			var currSpd = e.speed;
+google.maps.event.addDomListener(window, 'load', initialize);
 
-			L.marker(e.latlng).addTo(map)
-				.bindPopup("Current Location (within " + radius + " meters from this point) at " + currSpd + ".").openPopup();
-
-			L.circle(e.latlng, radius).addTo(map);
-		}
-
-		function onLocationError(e) {
-			alert(e.message);
-		}
-
-		map.on('locationfound', onLocationFound);
-		map.on('locationerror', onLocationError);
-
-		map.locate({setView: true, maxZoom: 16});
-	
-	</script>
-	<!-- Sourcing the polygons and putting them on the map -->
-	<script src="js/polyCoords.js"></script>
-
-</body>
+    </script>
+  </head>
+  <body>
+    <div id="map-canvas"></div>
+  <img src="/res/CodeForCaryBanner.png" /><br><center>Updated 30 MAY 2014</center>
+  </body>
 </html>
-
