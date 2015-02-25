@@ -1,166 +1,124 @@
 <html>
-<head>
-	<link rel="stylesheet" type="text/css" href="css/jquery.fullPage.css" />
-	<link rel="stylesheet" type="text/css" href="css/examples.css" />
-	<script src="js/jquery-1.11.0.min.js"></script>
-	<script src="js/jquery.easings.min.js"></script>
-	<script src="js/jquery.slimscroll.min.js"></script>
-        <script src="js/jquery.fullPage.min.js"></script>
-	<script>
-        $(document).ready(function() {
-            $.fn.fullpage({
-	        verticalCentered: false,
-	       	resize : true,
-	        slidesColor : ['#fff', '#fff'],
-	        anchors:[],
-	        scrollingSpeed: 700,
-	        easing: 'easeInQuart',
-	        menu: true,
-	        navigation: true,
-	        navigationPosition: 'right',
-	        navigationTooltips: ['firstSlide', 'secondSlide'],
-	        slidesNavigation: false,
-	        slidesNavPosition: 'bottom',
-	        loopBottom: false,
-	        loopTop: false,
-	        loopHorizontal: false,
-	        autoScrolling: true,
-	        scrollOverflow: true,
-	        css3: false,
-	        paddingTop: '3em',
-	        paddingBottom: '10px',
-	        fixedElements: '#element1, .element2',
-	        normalScrollElements: '#element1, .element2',
-	        keyboardScrolling: true,
-	        touchSensitivity: 15,
-	        continuousVertical: false,
-	        animateAnchor: true,
-
-	        //events
-	        onLeave: function(index, direction){},
-	        afterLoad: function(anchorLink, index){},
-	        afterRender: function(){},
-	        afterSlideLoad: function(anchorLink, index, slideAnchor, slideIndex){},
-	        onSlideLeave: function(anchorLink, index, slideIndex, direction){}
-	    });
-        });
-	</script>
-	<script>
-		function btnDev_onclick() {
-			window.location.href = "http://codeforcary.org/dev.html";
-		};
-	</script>
-	<style>
-	
-	/* Style for our header texts 
-	* --------------------------------------- */
-	h1{
-		font-size: 5em;	
-		font-family: arial,helvetica;
-		color: #000;
-		margin:0;
-		padding:0;
-	}
-	
-	/* Centered texts in each section 
-	* --------------------------------------- */
-	.section{
-		text-align:center;
-	}
-	
-	
-	/* Backgrounds will cover all the section
-	* --------------------------------------- */
-	section0,
-	section1,
-	section2,
-	section3{
-		background-size: cover;
-	}
-	
-	/* Defining each sectino background and styles 
-	* --------------------------------------- */
-	section0{
-		background-image: url(http://wallpapers-for-ipad.com/fullpage/imgs/bg1.jpg);
-		padding: 30% 0 0 0;
-	}
-	section2{
-		background-image: url(http://wallpapers-for-ipad.com/fullpage/imgs/bg3.jpg);
-		padding: 6% 0 0 0;
-	}
-	section3{
-		background-image: url(http://wallpapers-for-ipad.com/fullpage/imgs/bg4.jpg);
-		padding: 6% 0 0 0;
-	}
-	section3 h1{
-		color: #000;
-	}
-
- 
- 	/*Adding background for the slides
-	* --------------------------------------- */
-	slide1{
-		background-image: url(http://wallpapers-for-ipad.com/fullpage/imgs/bg2.jpg);
-		padding: 6% 0 0 0;
-	}
-	slide2{
-		background-image: url(http://wallpapers-for-ipad.com/fullpage/imgs/bg5.jpg);
-		padding: 6% 0 0 0;
-	}
-	
-	
-	/* Bottom menu
-	* --------------------------------------- */
-	#infoMenu li a {
-		color: #000;
-	}
-	</style>
-</head>
 <body>
-<div class="section" id="section0">
-	<center>A part of the <a href="http://codeforamerica.org/brigade">Code for America Brigade</a> network.</center><br>
-	<center><i> scroll down or use arrow keys </i></center><br>
-	<img src="res/CfA Cary Large 2.png" width="653" height="441">
-	<center><h1>&#9660 &#9660 &#9660 </h1></center>
-</div>
-<div class="section">
-	<center><h1>Sponsored by:<h1></center>
-	<center><a href="http://technologytank.org"><img src="res/techtank-logo-v1.jpg" width="500" height="500"></a></center>
-</div>
-<div class="section">
-         <div class="slide" id="slide1">
-	    <h1>Swipe left for our projects</h1>
-	    <p>
-	    &#9658<br>
-	    &#9658<br>
-	    &#9658<br>
-         </div>
-         <div class="slide">
-	    <center><H1>Cary Development Locations</H1></center>
-	    <center><input id="btnDev" type="button" value="Load Page" onclick="return btnDev_onclick()" />
-	    <br>
-	    <br>
-	    <center>Author: <a href="mailto:rcampbellnc@gmail.com">Robert Campbell</a></center>
-	    <center>This page shows the locations near your present location that are under construction. The red polygons represent an area with some construction and a link is provided to the Town of Cary's site plan for this project.</center>
-	    <center>Last Updated: 31 March 2014</center>
-	    <center><a href="dev.html"><img src="res/CaryDev.png" height="640" width="384"></a></center>
-         </div>
-         <div class="slide">Coming Soon</div>
-         <div class="slide">Coming Soon</div>
-</div>
-<div class="section">
-	Webpage designed by: Robert Campbell, using <a href="http://alvarotrigo.com/fullPage">fullpage.js</a>
-	<center><img src="res/CfA Cary Flag.png"></center>
-</div>
-<div id="infoMenu">
-        <ul>
-                <li><a href="http://www.meetup.com/Triangle-Code-for-America">Meetup Group</a></li>
-                <li><a href="http://github.com/organizations/Cary-Code-for-America">GitHub</a></li>
-                <li><a href="https://plus.google.com/u/0/communities/109745871295477431200">Google+ Community</a></li>
-                <li><a href="http://technologytank.org/contact">Contact</a></li>
-        </ul>
+  <head>
+    <title>Development in Cary and Apex</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0px;
+        padding: 0px
+      }
+      #map {
+        height: 80%;
+        margin: 0px;
+    pading: 0px;
+      }
+    </style>
+  </head>
+<div id="map"></div>
+<img src="../res/CodeForCaryBanner.png" /><br><center>Cary data 26 January 2015 / Apex data 04 September 2014</center>
 
-</div>
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDjF4Rue-wRz5uvVM8bG1NPTwqt3kVw9R0&sensor=TRUE">
+</script>
+<script>
+ // This is the minimum zoom level that we'll allow
+ var minZoomLevel = 10;
 
+ var map = new google.maps.Map(document.getElementById('map'), {
+     zoom: minZoomLevel,
+     center: new google.maps.LatLng(35.789471, -78.781168),
+     mapTypeId: google.maps.MapTypeId.ROADMAP
+ });
+ // Add a layer for Cary's Site/Subdivision Plans
+ var devLayer = new google.maps.KmlLayer({
+           url: 'http://codeforcary.org/res/sitesubplans-20150126.kml'
+         });
+ devLayer.setMap(map);
+ // Add a layer for Cary's Rezoning Data
+ var rezLayer = new google.maps.KmlLayer({
+               url: 'http://codeforcary.org/res/rezoning-20150126.kml'
+         });
+ rezLayer.setMap(map);
+ // Add a layer for Apex Development
+ var apexDevLayer = new google.maps.KmlLayer({
+               url: 'http://codeforcary.org/res/ApexDevelopment07172014.kml'
+         });
+ apexDevLayer.setMap(map);
+ // Bounds for Cary, North Carolina
+ var strictBounds = new google.maps.LatLngBounds(
+ new google.maps.LatLng(35.639,-78.968),
+ new google.maps.LatLng(35.919,-78.698));
+
+ // Listen for the dragend event
+ google.maps.event.addListener(map, 'dragend', function () {
+     if (strictBounds.contains(map.getCenter())) return;
+
+     // We're out of bounds - Move the map back within the bounds
+
+     var c = map.getCenter(),
+         x = c.lng(),
+         y = c.lat(),
+         maxX = strictBounds.getNorthEast().lng(),
+         maxY = strictBounds.getNorthEast().lat(),
+         minX = strictBounds.getSouthWest().lng(),
+         minY = strictBounds.getSouthWest().lat();
+
+     if (x < minX) x = minX;
+     if (x > maxX) x = maxX;
+     if (y < minY) y = minY;
+     if (y > maxY) y = maxY;
+
+     map.setCenter(new google.maps.LatLng(y, x));
+ });
+
+ // Limit the zoom level
+ google.maps.event.addListener(map, 'zoom_changed', function () {
+     if (map.getZoom() < minZoomLevel) map.setZoom(minZoomLevel);
+ });
+ // Try HTML5 geolocation
+ if(navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(function(position) {
+    var pos = new google.maps.LatLng(position.coords.latitude,
+                                     position.coords.longitude);
+    
+    var urhereMarker = new google.maps.Marker({
+        content: "Your Location"
+    });
+
+    var myLocation = new google.maps.Marker({
+        position: pos,
+        map: map,
+        animation: google.maps.Animation.DROP,
+        title: 'Current Location'
+        });
+        map.setCenter(pos);
+        }, function() {
+             handleNoGeolocation(true);
+           });
+        } else {
+           // Browser doesn't support Geolocation
+           handleNoGeolocation(false);
+        }
+
+       function handleNoGeolocation(errorFlag) {
+         if (errorFlag) {
+           var content = 'Error: The Geolocation service failed.';
+         } else {
+           var content = 'Error: Your browser doesn\'t support geolocation.';
+         };
+
+         var options = {
+           map: map,
+           position: new google.maps.LatLng(35.789471, -78.781168),
+           content: content
+         };
+
+         var infowindow = new google.maps.InfoWindow(options);
+         map.setCenter(options.position);
+       };
+    
+</script>
 </body>
 </html>
